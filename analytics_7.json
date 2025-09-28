@@ -1,0 +1,26 @@
+{
+  "name": "analytics_7",
+  "version": "1.0.0",
+  "description": "Analytics configuration file",
+  "author": "Shivam Sahu",
+  "generated": "2025-10-15 22:10:27",
+  "settings": {
+    "debug": true,
+    "environment": "development",
+    "api_endpoint": "https://api.analytics.com",
+    "refresh_interval": 30000,
+    "max_retries": 3
+  },
+  "features": {
+    "real_time_analytics": true,
+    "data_export": true,
+    "custom_dashboards": true,
+    "alerts": true
+  },
+  "database": {
+    "host": "localhost",
+    "port": 5432,
+    "name": "analytics_db",
+    "user": "analytics_user"
+  }
+}
