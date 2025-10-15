@@ -1,0 +1,175 @@
+# Development Configuration for ETL Pipeline
+environment: development
+
+# Database Configuration
+database:
+  host: localhost
+  port: 5432
+  name: etl_pipeline_dev
+  user: etl_user
+  password: ${DB_PASSWORD}
+  pool_size: 5
+  max_overflow: 10
+
+# Data Sources Configuration
+sources:
+  - name: "sales_database"
+    type: "postgresql"
+    connection: "postgresql://etl_user:${DB_PASSWORD}@localhost:5432/sales_db"
+    query: |
+      SELECT 
+        order_id,
+        customer_id,
+        product_id,
+        order_date,
+        order_value,
+        quantity,
+        discount,
+        status
+      FROM orders 
+      WHERE order_date >= CURRENT_DATE - INTERVAL '30 days'
+    
+  - name: "customer_database"
+    type: "postgresql"
+    connection: "postgresql://etl_user:${DB_PASSWORD}@localhost:5432/customer_db"
+    query: |
+      SELECT 
+        customer_id,
+        first_name,
+        last_name,
+        email,
+        phone,
+        address,
+        city,
+        state,
+        zip_code,
+        registration_date,
+        customer_segment
+      FROM customers
+    
+  - name: "product_database"
+    type: "postgresql"
+    connection: "postgresql://etl_user:${DB_PASSWORD}@localhost:5432/product_db"
+    query: |
+      SELECT 
+        product_id,
+        product_name,
+        category,
+        subcategory,
+        price,
+        cost,
+        brand,
+        supplier_id,
+        created_date
+      FROM products
+    
+  - name: "external_api"
+    type: "api"
+    url: "https://api.example.com/external-data"
+    headers:
+      Authorization: "Bearer ${API_TOKEN}"
+      Content-Type: "application/json"
+    method: "GET"
+    params:
+      limit: 1000
+      format: "json"
+
+# Pipeline Configuration
+pipeline:
+  schedule: "0 6 * * *"  # Daily at 6 AM
+  retry_attempts: 3
+  timeout: 3600  # 1 hour
+  parallel_processing: true
+  max_workers: 4
+  
+  stages:
+    extract:
+      parallel: true
+      max_workers: 4
+      chunk_size: 10000
+      
+    transform:
+      sql_queries:
+        - "sql/transformations/customer_analysis.sql"
+        - "sql/transformations/sales_summary.sql"
+        - "sql/transformations/product_performance.sql"
+        - "sql/transformations/revenue_analysis.sql"
+      
+    load:
+      target_tables:
+        - "fact_sales"
+        - "dim_customers"
+        - "dim_products"
+        - "daily_reports"
+      batch_size: 5000
+
+# Directories Configuration
+directories:
+  input: "data/input"
+  staging: "data/staging"
+  output: "data/output"
+  logs: "logs"
+  temp: "temp"
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <8}</level> | <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> | <level>{message}</level>"
+  file: "logs/etl_pipeline.log"
+  error_file: "logs/etl_errors.log"
+  performance_file: "logs/etl_performance.log"
+  rotation: "1 day"
+  retention: "30 days"
+  compression: "zip"
+
+# Data Validation Configuration
+validation:
+  enabled: true
+  rules:
+    - name: "not_null_check"
+      columns: ["customer_id", "order_id", "product_id"]
+    - name: "data_type_check"
+      columns: 
+        order_value: "numeric"
+        quantity: "integer"
+        order_date: "datetime"
+    - name: "range_check"
+      columns:
+        order_value: 
+          min: 0
+          max: 100000
+        quantity:
+          min: 1
+          max: 1000
+
+# Excel Report Configuration
+excel_reports:
+  enabled: true
+  output_dir: "data/output/reports"
+  templates:
+    - name: "daily_sales_report"
+      template: "templates/daily_sales_report.xlsx"
+      output: "daily_sales_report_{date}.xlsx"
+    - name: "customer_analysis_report"
+      template: "templates/customer_analysis_report.xlsx"
+      output: "customer_analysis_report_{date}.xlsx"
+  
+  formatting:
+    header_style:
+      bold: true
+      bg_color: "366092"
+      font_color: "FFFFFF"
+    data_style:
+      border: true
+      wrap_text: true
+    number_format:
+      currency: "$#,##0.00"
+      percentage: "0.00%"
+      date: "yyyy-mm-dd"
+
+# Performance Configuration
+performance:
+  memory_limit: "2GB"
+  cpu_limit: 4
+  enable_profiling: true
+  slow_query_threshold: 5.0  # seconds
