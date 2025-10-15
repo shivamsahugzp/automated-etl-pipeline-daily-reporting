@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🚀 Automated ETL Pipeline for Daily Reporting
 
 [![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://python.org)
@@ -401,3 +402,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 ⭐ **Star this repository if you find it helpful!**
+=======
+# automated-etl-pipeline-daily-reporting
+Python-SQL hybrid ETL pipeline that extracts data from multiple sources, transforms it using advanced SQL queries, and loads it into a data warehouse for daily reporting and analytics
+>>>>>>> 0757cb8253d1f0d22e349f987ef585fc74a49d33
