@@ -4,7 +4,6 @@
 [![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://python.org)
 [![SQL](https://img.shields.io/badge/SQL-PostgreSQL-green.svg)](https://postgresql.org)
 [![Excel](https://img.shields.io/badge/Excel-Data%20Analysis-orange.svg)](https://microsoft.com/excel)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ## 📋 Overview
 
@@ -32,6 +31,12 @@ A robust Python-SQL hybrid ETL (Extract, Transform, Load) pipeline that automate
 - **Requests**: API data extraction
 - **Logging**: Built-in Python logging
 - **Docker**: Containerization support
+
+## 🎯 Live Demo
+
+**🌐 [View Live Demo](https://shivamsahugzp.github.io/portfolio-projects-demo-hub/#etl-demo)** | **📁 [Source Code](https://github.com/shivamsahugzp/automated-etl-pipeline-daily-reporting)**
+
+Interactive demonstration showcasing the ETL pipeline's capabilities, performance metrics, and business impact.
 
 ## 🚀 Quick Start
 
@@ -376,7 +381,6 @@ docker-compose up -d
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 👨‍💻 Author
 
