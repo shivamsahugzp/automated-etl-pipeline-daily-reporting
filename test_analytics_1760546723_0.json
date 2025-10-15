@@ -1,0 +1,12 @@
+{
+    "name": "test_analytics_1760546723_0.json",
+    "version": "1.0.0",
+    "description": "Analytics configuration",
+    "author": "Shivam Sahu",
+    "generated": "2025-10-15 22:15:23",
+    "settings": {
+        "debug": true,
+        "environment": "development",
+        "api_endpoint": "https://api.example.com"
+    }
+}
